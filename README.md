@@ -1,4 +1,4 @@
-# B.Sc. THESIS ![Screenshot](itu_logo.png "ITU logo")
+# ![Screenshot](itu_logo.png "ITU logo") B.Sc. THESIS
 
 **Title**: PORTFOLIO OPTIMIZATION with REINFORCEMENT LEARNING
 
