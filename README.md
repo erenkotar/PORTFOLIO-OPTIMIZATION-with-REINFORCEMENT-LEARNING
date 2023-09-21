@@ -13,7 +13,7 @@ This graduation thesis aims to create a portfolio management tool for multi-stoc
 **About Source Code**:
 Thesis is implemented mainly via [FinRL module](https://github.com/AI4Finance-Foundation/FinRL) which itself includes different modules like StableBaselines3, YahooFinance and etc. which is very useful for the project. Module brings different modular functionalities that allow various preprocessing, feature engineering, and testing methods which constitute the backbone of the project. The implementation is explained in detail in the "5. APPLICATION" part of the thesis which can be downloaded free via Research Gate link above.
 
-Follow notebooks as:
+Follow notebooks in the order of:
 1. raw_preprocessing.ipynb
 2. raw_train.ipynb
 3. raw_eval.ipynb
