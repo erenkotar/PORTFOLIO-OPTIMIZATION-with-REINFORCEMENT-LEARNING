@@ -13,5 +13,6 @@ This graduation thesis aims to create a portfolio management tool for multi-stoc
 **About Source Code**:
 Thesis is implemented mainly via [FinRL module](https://github.com/AI4Finance-Foundation/FinRL) which itself includes different modules like StableBaselines3, YahooFinance and etc. which is very useful for the project. Module brings different modular functionalities that allow various preprocessing, feature engineering, and testing methods which constitute the backbone of the project.
 Sturcture of FinRL Module:
+
 ![Screenshot](finRL.png "FinRL Structure") 
 
