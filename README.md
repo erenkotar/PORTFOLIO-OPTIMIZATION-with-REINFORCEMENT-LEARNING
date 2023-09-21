@@ -1,0 +1,2 @@
+# PORTFOLIO-OPTIMIZATION-with-REINFORCEMENT-LEARNING
+Bachelor of Sciences Thesis Project
