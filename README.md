@@ -11,7 +11,9 @@ This graduation thesis aims to create a portfolio management tool for multi-stoc
 -Official Implementation-
 
 **About Source Code**:
-Thesis is implemented mainly via [FinRL module](https://github.com/AI4Finance-Foundation/FinRL) which itself includes different modules like StableBaselines3, YahooFinance and etc. which is very useful for the project. Module brings different modular functionalities that allow various preprocessing, feature engineering, and testing methods which constitute the backbone of the project. The implementation is explained in detail in the "5. APPLICATION" part of the thesis which can be downloaded free via Research Gate link above.
+The thesis is implemented mainly via [FinRL module](https://github.com/AI4Finance-Foundation/FinRL), which includes modules like StableBaselines3, YahooFinance, etc. which are very useful for the project. Module brings other modular functionalities that allow various preprocessing, feature engineering, and testing methods which constitute the project's backbone. The implementation is explained in detail in the "5. APPLICATION" part of the thesis which can be downloaded free via Research Gate link above.
+
+The idea in the Thesis is implemented with small changes made in the beautiful [GitHub repo](https://github.com/changjulian17/DataSciencePortfolio/tree/main/Investment_Portfolio).
 
 Follow notebooks in the order of:
 1. raw_preprocessing.ipynb
@@ -22,3 +24,7 @@ Sturcture of FinRL Module:
 
 ![Screenshot](finRL.png "FinRL Structure") 
 
+Other Resources:
+- https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-multiple-stock-trading-7b00763b7530
+- https://github.com/AI4Finance-Foundation/FinRL/blob/master/examples/FinRL_PaperTrading_Demo.ipynb
+- https://github.com/AI4Finance-Foundation/FinRL-Tutorials/blob/master/2-Advance/FinRL_Ensemble_StockTrading_ICAIF_2020.ipynb
