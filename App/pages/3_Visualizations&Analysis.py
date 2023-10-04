@@ -7,13 +7,13 @@ st.caption("Try filtering the stocks', changing the period!")
 if 'fin_obj' in st.session_state:
     fin_obj = st.session_state['fin_obj']
     with st.spinner("Please wait for visualizations..."):
-        price_fig = fin_obj.scatter_graph_price()
+        price_fig = fin_obj.plot_price()
         st.plotly_chart(price_fig)
         
-        price_fig = fin_obj.scatter_graph_cumreturn()
+        price_fig = fin_obj.plot_cumreturn()
         st.plotly_chart(price_fig)
         
-        return_fig = fin_obj.scatter_graph_return()
+        return_fig = fin_obj.plot_return()
         st.plotly_chart(return_fig)
 
     # show_candle = st.radio("Candle Stick Graph of All Stocks", 

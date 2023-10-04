@@ -75,7 +75,7 @@ class Finance:
 
     # VISUALIZATIONS
 
-    def scatter_graph_price(self):
+    def plot_price(self):
         fig = go.Figure()
         fig.update_layout(xaxis_title="Date", yaxis_title="Price (USD$)", 
                     title=f"Price Chart", template = self.TEMPLATE)
@@ -93,7 +93,7 @@ class Finance:
         # fig.show()
         return fig   
     
-    def scatter_graph_cumreturn(self):
+    def plot_cumreturn(self):
         fig = go.Figure()
         fig.update_layout(xaxis_title="Date", yaxis_title="Price (USD$)", 
                     title=f"Cumulative Returns Chart", template = self.TEMPLATE)
@@ -111,7 +111,7 @@ class Finance:
         # fig.show()
         return fig  
 
-    def scatter_graph_return(self):
+    def plot_return(self):
         fig = go.Figure()
         fig.update_layout(xaxis_title="Date", yaxis_title="Price (USD$)", 
                     title=f"Return Chart", template = self.TEMPLATE)
