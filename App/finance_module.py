@@ -78,7 +78,7 @@ class Finance:
     def scatter_graph_price(self):
         fig = go.Figure()
         fig.update_layout(xaxis_title="Date", yaxis_title="Price (USD$)", 
-                    title=f"Daily Price Chart", template = self.TEMPLATE)
+                    title=f"Price Chart", template = self.TEMPLATE)
         
         for ticker in self.tickers:
             c_data = self.all_data["Close"][[ticker]]
@@ -92,11 +92,29 @@ class Finance:
             
         # fig.show()
         return fig   
+    
+    def scatter_graph_cumreturn(self):
+        fig = go.Figure()
+        fig.update_layout(xaxis_title="Date", yaxis_title="Price (USD$)", 
+                    title=f"Cumulative Returns Chart", template = self.TEMPLATE)
+    
+        for ticker in self.tickers:
+            c_data = self.cum_returns[[ticker]]
+
+            fig.add_trace(go.Scatter(
+                name=ticker,
+                x = c_data.index,
+                y = c_data[ticker],
+                mode="lines"
+                ))  
+            
+        # fig.show()
+        return fig  
 
     def scatter_graph_return(self):
         fig = go.Figure()
         fig.update_layout(xaxis_title="Date", yaxis_title="Price (USD$)", 
-                    title=f"Daily Return Chart", template = self.TEMPLATE)
+                    title=f"Return Chart", template = self.TEMPLATE)
         
         for ticker in self.tickers:
             c_data = self.returns[[ticker]]
@@ -147,13 +165,7 @@ class Finance:
         # fig.show()
         return fig
     
-    def bar_graph_return(self):
-        
-        fig = px.bar(self.returns, x=self.returns.index, y=self.tickers, template=self.TEMPLATE)
-        fig.update_layout(xaxis_title="Date", yaxis_title="Price (USD$)", 
-                    title=f"Stock Chart")
-        # fig.show()
-        return fig 
+    # ANALYSIS
 
     def conduct_all_analysis(self, period=12, level=0.05, rfree_rate=0.001, modified=False):
 

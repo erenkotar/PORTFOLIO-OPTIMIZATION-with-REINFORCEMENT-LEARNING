@@ -20,7 +20,7 @@ if st.session_state["p1_buttons"]["save"]:
 selected_stocks = st.multiselect("Select all the preffered stocks you want to conduct analysis and optimize the portfolio and click the **SAVE PORTFOLIO** button at the end of the page:", 
                                options=("AMZN", "APPL", "MSFT","GOOG","META","NVDA","V","PG","NFLX"))
 
-start_date = st.date_input("Select the start date:", value=datetime.datetime(2000,1,31))
+start_date = st.date_input("Select the start date:", value=datetime.datetime(2020,1,31))
 end_date = st.date_input("Select the end date:", value=datetime.datetime(2023,1,31))
 
 
