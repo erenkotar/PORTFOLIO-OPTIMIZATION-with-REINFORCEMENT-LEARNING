@@ -1,17 +1,5 @@
 import streamlit as st
 
-col1, col2 = st.beta_columns(2)
-
-# Put a button in each column
-save_button = col1.button("SAVE PORTFOLIO")
-reset_button = col2.button("RESET")
-
-# Handle button click events
-if save_button:
-    st.write("You clicked SAVE!")
-if reset_button:
-    st.write("You clicked RESET!")
-    
 # def main():
 #     # Check if the session state already has a portfolio
 #     if 'portfolio' not in st.session_state:
