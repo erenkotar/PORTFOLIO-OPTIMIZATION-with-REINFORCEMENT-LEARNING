@@ -1,5 +1,5 @@
 from finance_module import *
-from stocknews import StockNews
+# from stocknews import StockNews
 
 st.title("Inputs of Portfolio")
 
