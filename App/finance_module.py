@@ -9,6 +9,7 @@ import yfinance as yf
 import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
+import plotly.figure_factory as ff
 
 from scipy.stats import norm
 from scipy.optimize import minimize
@@ -95,7 +96,7 @@ class Finance:
     
     def plot_cumreturn(self):
         fig = go.Figure()
-        fig.update_layout(xaxis_title="Date", yaxis_title="Price (USD$)", 
+        fig.update_layout(xaxis_title="Date", yaxis_title="Return (%)", 
                     title=f"Cumulative Returns Chart", template = self.TEMPLATE)
     
         for ticker in self.tickers:
@@ -113,7 +114,7 @@ class Finance:
 
     def plot_return(self):
         fig = go.Figure()
-        fig.update_layout(xaxis_title="Date", yaxis_title="Price (USD$)", 
+        fig.update_layout(xaxis_title="Date", yaxis_title="Return (%)", 
                     title=f"Return Chart", template = self.TEMPLATE)
         
         for ticker in self.tickers:
@@ -165,8 +166,43 @@ class Finance:
         # fig.show()
         return fig
     
-    # ANALYSIS
+    def max_drawdown(self):
+        fig = go.Figure()
+        fig.update_layout(xaxis_title="Date", yaxis_title="Price (USD$)", 
+                    title=f"Price Chart", template = self.TEMPLATE)
+        
+        ppeaks_df, drawd_df = self.drawdown_f(return_df=True)
+        
+        for ticker in drawd_df.columns:
+            c_prev = ppeaks_df[[ticker]]
+            c_drawd = drawd_df[[ticker]]
 
+            fig.add_trace(go.Scatter(x=c_drawd.index, y=c_drawd[ticker], mode='lines', name=f'{ticker} Drawdown'))
+            fig.add_trace(go.Scatter(x=c_prev.index, y=c_prev[ticker].cummax(), mode='lines', name=f'{ticker} Previous Peak', line=dict(dash='dash')))
+
+            # fig.add_trace(go.Scatter(
+            #     name=ticker,
+            #     x = c_data.index,
+            #     y = c_data[ticker],
+            #     mode="lines"
+            #     ))  
+            
+        # fig.show()
+        return fig   
+
+    def corr_plot(self):
+        corr_mat = self.returns.pct_change().corr() 
+        fig = ff.create_annotated_heatmap(
+            z=corr_mat.values,
+            x=list(corr_mat.columns),
+            y=list(corr_mat.index),
+            annotation_text=corr_mat.round(2).values,
+            colorscale='Viridis'
+            )
+        fig.update_layout(title="Correlation Heatmap")
+        return fig
+
+    # ANALYSIS
     def conduct_all_analysis(self, period=12, level=0.05, rfree_rate=0.001, modified=False):
 
         annr_s = self.annualize_rets(periods_per_year=period)
@@ -221,7 +257,7 @@ class Finance:
             r = r
         return r.std()*(periods_per_year**0.5)
 
-    def drawdown_f(self):
+    def drawdown_f(self, return_df=False):
         """Takes a time series of asset returns.
         returns a DataFrame with columns for
         the wealth index, 
@@ -237,7 +273,11 @@ class Finance:
         # df = pd.DataFrame({"Wealth": wealth_index, 
         #                     "Previous Peak": previous_peaks, 
         #                     "Drawdown": drawdowns})
-        return drawdowns
+
+        if return_df:
+            return previous_peaks, drawdowns
+        else: 
+            return drawdowns
 
     def skewness(self):
         """
