@@ -1,5 +1,7 @@
 from finance_module import *
-from stocknews import StockNews
+from StreamlitFuncs import *
+
+about()
 
 st.title("Inputs of Portfolio")
 
@@ -15,11 +17,14 @@ def initilize():
 if "initilize" not in st.session_state:
     initilize()
 
+tickers_df = pd.read_parquet("App/Data/MetaTickerFil.parquet")
+
 if st.session_state["p1_buttons"]["saved"]:
     st.warning("A portfolio is already selected. You can continue with the current selection or reset to make a new selection.")
 
+
 selected_stocks = st.multiselect("Select all the preffered stocks you want to conduct analysis and optimize the portfolio and click the **SAVE PORTFOLIO** button at the end of the page:", 
-                               options=("AMZN", "APPL", "MSFT","GOOG","META","NVDA","V","PG","NFLX"))
+                               options=tickers_df.Ticker.tolist())
 
 start_date = st.date_input("Select the start date:", value=datetime.datetime(2020,1,31))
 end_date = st.date_input("Select the end date:", value=datetime.datetime(2023,1,31))
@@ -91,9 +96,10 @@ if st.session_state["p1_buttons"]["saved"]:
             st.session_state['selected_stock'] = selected_stock
             st.session_state['news_interaction'] = True
 
-        sn = StockNews(selected_stock, save_news=False)
-        news_df = sn.read_rss()
-        st.write(news_df)
+        st.write(st.session_state["fin_obj"].get_stock_news())
+        # sn = StockNews(selected_stock, save_news=False)
+        # news_df = sn.read_rss()
+        # st.write(news_df)
 
     # for stock in st.session_state["selected_stocks"]:
     #     st.write(stock)

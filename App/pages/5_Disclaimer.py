@@ -1,4 +1,7 @@
 from finance_module import *
+from StreamlitFuncs import *
+
+about()
 
 st.title("Disclaimer")
 st.write("""

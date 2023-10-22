@@ -5,11 +5,13 @@ pd.options.display.float_format = '{:,.4f}'.format
 import matplotlib.pyplot as plt
 import seaborn as sns
 import yfinance as yf
+from stocknews import StockNews
 
 import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.figure_factory as ff
+from itertools import cycle
 
 from scipy.stats import norm
 from scipy.optimize import minimize
@@ -73,6 +75,10 @@ class Finance:
     def get_one_ticker_price_data(self, ticker_name):
         price = self.get_one_ticker_candle_data(ticker_name)["Close"]
         return price
+    
+    def get_stock_news(self):
+        sn = StockNews(self.tickers, save_news=False)
+        return sn.read_rss()
 
     # VISUALIZATIONS
 
@@ -166,19 +172,19 @@ class Finance:
         # fig.show()
         return fig
     
-    def max_drawdown(self):
+    def drawd_graph(self):
         fig = go.Figure()
-        fig.update_layout(xaxis_title="Date", yaxis_title="Price (USD$)", 
-                    title=f"Price Chart", template = self.TEMPLATE)
+        fig.update_layout(xaxis_title="Date", yaxis_title="Return (%)", 
+                    title=f"Drawdown Chart", template = self.TEMPLATE)
         
         ppeaks_df, drawd_df = self.drawdown_f(return_df=True)
         
         for ticker in drawd_df.columns:
-            c_prev = ppeaks_df[[ticker]]
+            # c_prev = ppeaks_df[[ticker]]
             c_drawd = drawd_df[[ticker]]
 
             fig.add_trace(go.Scatter(x=c_drawd.index, y=c_drawd[ticker], mode='lines', name=f'{ticker} Drawdown'))
-            fig.add_trace(go.Scatter(x=c_prev.index, y=c_prev[ticker].cummax(), mode='lines', name=f'{ticker} Previous Peak', line=dict(dash='dash')))
+            # fig.add_trace(go.Scatter(x=c_prev.index, y=c_prev[ticker].cummax(), mode='lines', name=f'{ticker} Previous Peak', line=dict(dash='dash')))
 
             # fig.add_trace(go.Scatter(
             #     name=ticker,
@@ -190,7 +196,7 @@ class Finance:
         # fig.show()
         return fig   
 
-    def corr_plot(self):
+    def corr_graph(self):
         corr_mat = self.returns.pct_change().corr() 
         fig = ff.create_annotated_heatmap(
             z=corr_mat.values,
@@ -201,10 +207,60 @@ class Finance:
             )
         fig.update_layout(title="Correlation Heatmap")
         return fig
+    # @staticmethod
+    # def report_graph(df_report):
+    #     colors = px.colors.qualitative.Set1[:len(df_report.columns)]
+    #     color_mapping = {ticker: colors[i] for i, ticker in enumerate(df_report.columns)}
+
+    #     # all figs
+    #     figs = []
+    #     for metric in df_report.index:
+    #         if df_report.loc[metric].dtype == bool:  # skip non-numeric metrics
+    #             continue
+            
+    #         sorted_df = df_report.T.sort_values(by=metric, ascending=False)
+            
+    #         # Create a bar plot with consistent colors for each ticker across all plots
+    #         fig = go.Figure(data=[go.Bar(
+    #             x=sorted_df.index,
+    #             y=sorted_df[metric],
+    #             marker_color=[color_mapping[ticker] for ticker in sorted_df.index]
+    #         )])
+
+    #         col1, col2 = st.columns(2)
+
+    #         fig.update_layout(title=metric, xaxis_title="Stocks", yaxis_title="Value")
+    #         st.plotly_chart(fig)
+    @staticmethod
+    def report_graph(df_report):
+        metrics_to_plot = [metric for metric in df_report.index if df_report.loc[metric].dtype != bool]
+
+        num_rows = -(-len(metrics_to_plot) // 2)  # Ceiling division
+
+        fig_height = 400 * num_rows  # 400 units per row
+        fig = make_subplots(rows=num_rows, cols=2, subplot_titles=metrics_to_plot, vertical_spacing=0.3/num_rows, horizontal_spacing=0.2)
+
+        color_pool = cycle(px.colors.qualitative.Set1)
+        color_mapping = {ticker: next(color_pool) for ticker in df_report.columns}
+
+        for i, metric in enumerate(metrics_to_plot, start=1):
+            sorted_df = df_report.T.sort_values(by=metric, ascending=False)
+            fig.add_trace(
+                go.Bar(
+                    x=sorted_df.index,
+                    y=sorted_df[metric],
+                    marker_color=[color_mapping[ticker] for ticker in sorted_df.index],
+                    name=metric
+                ),
+                row=(i + 1) // 2,  
+                col=1 if i % 2 == 1 else 2
+            )
+
+        fig.update_layout(title_text="Summary Report Graphs", showlegend=False, height=fig_height)
+        return fig
 
     # ANALYSIS
     def conduct_all_analysis(self, period=12, level=0.05, rfree_rate=0.001, modified=False):
-
         annr_s = self.annualize_rets(periods_per_year=period)
         annv_s = self.annualize_vol(periods_per_year=period)
         skewness_s = self.skewness()

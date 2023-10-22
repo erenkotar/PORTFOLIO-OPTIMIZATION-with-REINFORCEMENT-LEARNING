@@ -1,4 +1,7 @@
 from finance_module import *
+from StreamlitFuncs import *
+
+about()
 
 write_align(text="Markowitz Optimization", pos="left", style="h1")
 
