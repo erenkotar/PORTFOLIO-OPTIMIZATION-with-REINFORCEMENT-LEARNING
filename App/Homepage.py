@@ -8,7 +8,7 @@ st.sidebar.success("Select a page above.")
 
 st.title("Stock Analysis Tool")
 
-st.image("App/stocks2.jpg")  # Change to your desired image, this is just a placeholder
+st.image("app/stocks2.jpg")  # Change to your desired image, this is just a placeholder
 
 st.write("""
 ### Welcome to the Stock Analysis Tool!

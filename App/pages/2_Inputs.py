@@ -17,7 +17,7 @@ def initilize():
 if "initilize" not in st.session_state:
     initilize()
 
-tickers_df = pd.read_parquet("App/Data/MetaTickerFil.parquet")
+tickers_df = pd.read_parquet("app/data/MetaTickerFil.parquet")
 
 if st.session_state["p1_buttons"]["saved"]:
     st.warning("A portfolio is already selected. You can continue with the current selection or reset to make a new selection.")
