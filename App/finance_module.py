@@ -286,10 +286,7 @@ class Finance:
 
     def annualize_rets(self, r=None ,periods_per_year=12):
         """
-        Annualizes a set of returns
-        We should infer the periods per year
-        but that is currently left as an exercise
-        to the reader :-)
+        Annualizes a set of returnss
         """
         if isinstance(r, type(None)):
             r = self.returns
@@ -303,9 +300,6 @@ class Finance:
     def annualize_vol(self, r=None, periods_per_year=12):
         """
         Annualizes the vol of a set of returns
-        We should infer the periods per year
-        but that is currently left as an exercise
-        to the reader :-)
         """
         if isinstance(r, type(None)):
             r = self.returns
@@ -314,7 +308,8 @@ class Finance:
         return r.std()*(periods_per_year**0.5)
 
     def drawdown_f(self, return_df=False):
-        """Takes a time series of asset returns.
+        """
+        Takes the asset returns.
         returns a DataFrame with columns for
         the wealth index, 
         the previous peaks, and 
@@ -337,9 +332,7 @@ class Finance:
 
     def skewness(self):
         """
-        Alternative to scipy.stats.skew()
         Computes the skewness of the supplied Series or DataFrame
-        Returns a float or a Series
         """
         r = self.returns
         demeaned_r = r - r.mean()
@@ -351,9 +344,7 @@ class Finance:
     def kurtosis(self):
         r = self.returns
         """
-        Alternative to scipy.stats.kurtosis()
         Computes the skewness of the supplied Series or DataFrame
-        Returns a float or a Series
         """
         demeaned_r = r - r.mean()
         # use the population standard deviation, so set dof=0
@@ -365,7 +356,7 @@ class Finance:
         r = self.returns
         """
         Applies the Jarque-Bera test to determine if a Series is normal or not
-        Test is applied at the 1% level by default
+        Test is applied at the 5% level by default
         Returns True if the hypothesis of normality is accepted, False otherwise
         """
         test = r.aggregate(scipy.stats.jarque_bera)
@@ -376,20 +367,18 @@ class Finance:
         r = self.returns
         """
         Returns the semideviation aka negative semideviation of r
-        r must be a Series or a DataFrame, else raises a TypeError
+        r must be a Series or a DataFrame
         """
-        excess= r-r.mean()                                        # We demean the returns
-        excess_negative = excess[excess<0]                        # We take only the returns below the mean
-        excess_negative_square = excess_negative**2               # We square the demeaned returns below the mean
-        n_negative = len(excess_negative)                        # number of returns under the mean
+        excess= r-r.mean()                                   
+        excess_negative = excess[excess<0]                        
+        excess_negative_square = excess_negative**2             
+        n_negative = len(excess_negative)                       
         return (excess_negative_square.sum()/n_negative)**0.5 
 
     def VaR_historic(self, level=5):
         r = self.returns
         """
         Returns the historic Value at Risk at a specified level
-        i.e. returns the number such that "level" percent of the returns
-        fall below that number, and the (100-level) percent are above
         """
         vars = r.aggregate(np.percentile, q=level)
         return vars
@@ -402,7 +391,6 @@ class Finance:
         """
         Returns the historic Value at Risk at a specified level
         i.e. returns the number such that "level" percent of the returns
-        fall below that number, and the (100-level) percent are above
         """
 
         def single_serie(ser):
@@ -587,7 +575,7 @@ class MPT:
             # add CML
             cml_x = [0, vol_msr]
             cml_y = [riskfree_rate, r_msr]
-            ax.plot(cml_x, cml_y, color='green', marker='o', linestyle='dashed', linewidth=2, markersize=12)
+            ax.plot(cml_x[1], cml_y[1], color='green', marker='o', linestyle='dashed', linewidth=2, markersize=12, label='Maximum Sharpe Ratio')
         
         if show_ew:
             n = er.shape[0]
@@ -595,13 +583,25 @@ class MPT:
             r_ew = MPT.portfolio_return(w_ew, er)
             vol_ew = MPT.portfolio_vol(w_ew, cov)
             # add EW
-            ax.plot([vol_ew], [r_ew], color='goldenrod', marker='o', markersize=10)
+            ax.plot([vol_ew], [r_ew], color='goldenrod', marker='o', markersize=10, label='Uniform Allocation')
 
         if show_gmv:
             w_gmv = MPT.gmv(cov)
             r_gmv = MPT.portfolio_return(w_gmv, er)
             vol_gmv = MPT.portfolio_vol(w_gmv, cov)
             # add EW
-            ax.plot([vol_gmv], [r_gmv], color='midnightblue', marker='o', markersize=10)
+            ax.plot([vol_gmv], [r_gmv], color='midnightblue', marker='o', markersize=10, label='Global Minimum Volatility')
+
+        weights = {
+            "Max. Sharpe Ratio": w_msr,
+            "Uniform": w_ew,
+            "Glob. Min. Volatility": w_gmv
+        }
+        weights_df = pd.DataFrame(weights, index=er.index)
+
+        ax.set_xlabel("Volatility")
+        ax.set_ylabel("Return")
+        ax.set_title("Efficient Frontier")
+        ax.legend()
         
-        return fig
+        return fig, weights_df

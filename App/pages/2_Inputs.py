@@ -26,7 +26,7 @@ if st.session_state["p1_buttons"]["saved"]:
 selected_stocks = st.multiselect("Select all the preffered stocks you want to conduct analysis and optimize the portfolio and click the **SAVE PORTFOLIO** button at the end of the page:", 
                                options=tickers_df.Ticker.tolist())
 
-start_date = st.date_input("Select the start date:", value=datetime.datetime(2020,1,31))
+start_date = st.date_input("Select the start date:", value=datetime.datetime(2018,1,31))
 end_date = st.date_input("Select the end date:", value=datetime.datetime(2023,1,31))
 
 col1, col2 = st.columns(2)
