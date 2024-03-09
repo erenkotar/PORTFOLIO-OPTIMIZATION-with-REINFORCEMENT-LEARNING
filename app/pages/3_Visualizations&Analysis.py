@@ -3,7 +3,7 @@ from StreamlitFuncs import *
 
 about()
 
-write_align(text="Visualization / Simple Anlaysis", pos="left", style="h1")
+write_align(text="Visualizations / Anlaysis", pos="left", style="h1")
 st.caption("In this page you can visualize the stocks' prices, returns and conduct some simple analysis.")
 st.caption("Try filtering the stocks', changing the period!")
 
