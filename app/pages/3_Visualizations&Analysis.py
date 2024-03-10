@@ -38,10 +38,10 @@ if 'fin_obj' in st.session_state:
     # show_report = st.radio("Return Report", 
     #                     options=("Don't show", "Show"), key="show_report")
     
-    select_period = st.number_input('Return Period in Month',
-                        value = 12,
+    select_period = st.number_input('Return Period in Days (default: 252):',
+                        value = 252,
                         min_value=1,
-                        max_value=12)
+                        max_value=252)
     
     select_rfree_rate = st.number_input('Risk-Free Rate (default for Turkey):',
                         value=0.3,
