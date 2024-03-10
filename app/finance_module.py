@@ -260,7 +260,7 @@ class Finance:
         return fig
 
     # ANALYSIS
-    def conduct_all_analysis(self, period=12, level=0.05, rfree_rate=0.001, modified=False):
+    def conduct_all_analysis(self, period=252, level=0.05, rfree_rate=0.001, modified=False):
         annr_s = self.annualize_rets(periods_per_year=period)
         annv_s = self.annualize_vol(periods_per_year=period)
         skewness_s = self.skewness()
@@ -284,7 +284,7 @@ class Finance:
     def check_validity(price):
         pass
 
-    def annualize_rets(self, r=None ,periods_per_year=12):
+    def annualize_rets(self, r=None ,periods_per_year=252):
         """
         Annualizes a set of returnss
         """
@@ -297,7 +297,7 @@ class Finance:
         n_periods = r.shape[0]
         return compounded_growth**(periods_per_year/n_periods)-1
 
-    def annualize_vol(self, r=None, periods_per_year=12):
+    def annualize_vol(self, r=None, periods_per_year=252):
         """
         Annualizes the vol of a set of returns
         """
