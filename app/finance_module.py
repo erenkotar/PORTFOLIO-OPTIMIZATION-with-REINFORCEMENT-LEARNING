@@ -336,7 +336,6 @@ class Finance:
         """
         r = self.returns
         demeaned_r = r - r.mean()
-        # use the population standard deviation, so set dof=0
         sigma_r = r.std(ddof=0)
         exp = (demeaned_r**3).mean()
         return exp/sigma_r**3
@@ -347,7 +346,6 @@ class Finance:
         Computes the skewness of the supplied Series or DataFrame
         """
         demeaned_r = r - r.mean()
-        # use the population standard deviation, so set dof=0
         sigma_r = r.std(ddof=0)
         exp = (demeaned_r**4).mean()
         return exp/sigma_r**4
@@ -367,7 +365,6 @@ class Finance:
         r = self.returns
         """
         Returns the semideviation aka negative semideviation of r
-        r must be a Series or a DataFrame
         """
         excess= r-r.mean()                                   
         excess_negative = excess[excess<0]                        
@@ -422,7 +419,7 @@ class Finance:
             
         return -(r.mean() + z*r.std(ddof=0))
 
-    def sharpe_ratio(self, riskfree_rate, periods_per_year=12):
+    def sharpe_ratio(self, riskfree_rate, periods_per_year=252):
         r = self.returns
         """
         Computes the annualized sharpe ratio of a set of returns
