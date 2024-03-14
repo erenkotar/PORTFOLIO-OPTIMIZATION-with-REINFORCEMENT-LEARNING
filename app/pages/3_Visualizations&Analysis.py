@@ -43,8 +43,8 @@ if 'fin_obj' in st.session_state:
                         min_value=1,
                         max_value=252)
     
-    select_rfree_rate = st.number_input('Risk-Free Rate (default for Turkey):',
-                        value=0.3,
+    select_rfree_rate = st.number_input('Risk-Free Rate:',
+                        value=0.04,
                         min_value=0.0001,
                         max_value=0.5)
     

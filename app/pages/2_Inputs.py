@@ -27,7 +27,7 @@ selected_stocks = st.multiselect("Select all the preffered stocks you want to co
                                options=tickers_df.Ticker.tolist())
 
 start_date = st.date_input("Select the start date:", value=datetime.datetime(2018,1,31))
-end_date = st.date_input("Select the end date:", value=datetime.datetime(2023,1,31))
+end_date = st.date_input("Select the end date:", value=datetime.datetime(2024,1,31))
 
 col1, col2 = st.columns(2)
 
