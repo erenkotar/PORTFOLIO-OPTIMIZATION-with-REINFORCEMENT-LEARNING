@@ -30,3 +30,11 @@ Other Resources:
 - https://towardsdatascience.com/finrl-for-quantitative-finance-tutorial-for-multiple-stock-trading-7b00763b7530
 - https://github.com/AI4Finance-Foundation/FinRL/blob/master/examples/FinRL_PaperTrading_Demo.ipynb
 - https://github.com/AI4Finance-Foundation/FinRL-Tutorials/blob/master/2-Advance/FinRL_Ensemble_StockTrading_ICAIF_2020.ipynb
+
+BONUS 🤓 :
+
+Also, I have created a simple analysis tool using Streamlit, where you can select historical stock values via the Yahoo Finance API and analyze them using common metrics and visualizations. On top of that, you can find the optimal allocations between stocks through simple methods such as maximizing the Sharpe ratio and minimizing volatility.
+
+Streamlit tool link: simple-stock-analysis-tool.streamlit.app
+
+Find tool folder at 'app/..'
