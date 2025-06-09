@@ -22,7 +22,7 @@ import datetime
 import warnings
 warnings.filterwarnings("ignore")
 
-yf.pdr_override()
+# yf.pdr_override()
 # plt.style.use("fivethirtyeight")
 
 def write_align(text, pos="left", style="strong"):
